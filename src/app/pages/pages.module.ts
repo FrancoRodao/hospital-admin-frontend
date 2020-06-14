@@ -15,6 +15,8 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
 
 //temporal
 import { IncrementorComponent } from '../components/incrementor/incrementor.component';
+import { PromesasComponent } from './promesas/promesas.component';
+import { RxjsComponent } from './rxjs/rxjs.component';
 
 
 @NgModule({
@@ -25,7 +27,9 @@ import { IncrementorComponent } from '../components/incrementor/incrementor.comp
         PagesComponent,
         DonaComponent,
         AccountSettingsComponent,
-        IncrementorComponent //temporal
+        IncrementorComponent,
+        PromesasComponent,
+        RxjsComponent //temporal
         
     ],
     exports: [
