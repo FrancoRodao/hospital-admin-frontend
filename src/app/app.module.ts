@@ -6,9 +6,12 @@ import { PageModule } from "./pages/pages.module";
 
 //COMPONENTS
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './login/register/register.component';
+import { LoginComponent } from './login/signin/login.component';
+import { RegisterComponent } from './login/signup/register.component';
 import { FormsModule } from '@angular/forms';
+
+//SERVICIOS
+import { ServiceModule } from "./services/service.module";
 
 @NgModule({
   declarations: [
@@ -20,6 +23,7 @@ import { FormsModule } from '@angular/forms';
     BrowserModule,
     PageModule,
     AppRoutingModule,
+    ServiceModule,
     FormsModule //temporal
   ],
   providers: [],
