@@ -2,3 +2,27 @@
 #themecolors a{
     cursor: pointer;
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.blue-snackbar{
+    color: #ffffff;
+    background: #4BB543;
+}
+
+.red-snackbar{
+    color: #ffffff;
+    background: red;
+}
+
+.mat-simple-snackbar{
+    justify-content: center !important;
+}
+
+.mat-simple-snackbar-action{
+    color: red;
+}
+
+.btn-primary.disabled, .btn-primary:disabled{
+    background-color: #c2c2c2 !important;
+    border-color: #c2c2c2 !important;
+}

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-notfound',
-  templateUrl: './notfound.component.html',
+  selector: 'app-loading',
+  templateUrl: './loading.component.html',
   styles: [
   ]
 })
-export class NotfoundComponent implements OnInit {
+export class LoadingComponent implements OnInit {
 
   constructor() { }
 

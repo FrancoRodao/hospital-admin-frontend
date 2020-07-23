@@ -20,8 +20,8 @@ export class Graficas1Component implements OnInit {
 
   graficos: any = {
     'grafico1': {
-      'labels': ['Con Frijoles', 'Con Natilla', 'Con tocino'],
-      'data':  [24, 30, 46],
+      'labels': ['Con Frijoles', 'Con Natilla', 'Con tocino', 'Con manteca'],
+      'data':  [24, 30, 46, 60],
       'type': 'doughnut',
       'leyenda': 'El pan se come con'
     },
@@ -32,8 +32,8 @@ export class Graficas1Component implements OnInit {
       'leyenda': 'Entrevistados'
     },
     'grafico3': {
-      'labels': ['Si', 'No'],
-      'data':  [95, 5],
+      'labels': ['Si', 'No', 'No lo se'],
+      'data':  [95, 5, 3],
       'type': 'doughnut',
       'leyenda': '¿Le dan gases los frijoles?'
     },

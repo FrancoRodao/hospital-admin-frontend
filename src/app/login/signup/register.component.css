@@ -18,6 +18,10 @@ File: scss
 /*******************
 Login register and recover password Page
 ******************/
+.marginM{
+  margin-bottom: 15px !important;
+}
+
 .login-register {
     background-size: cover;
     background-repeat: no-repeat;

@@ -3,6 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  URL_SERVICES: 'http://localhost:3000/api',
+  URL: 'http://localhost:3000',
+  URL_DEFAULTIMAGE: 'http://localhost:3000/uploads/images/default.svg',
+  google_client_id: '417176898686-61gm6i9gkk1js2ivk9rtb3v7ef1qa8g4',
   production: false
 };
 

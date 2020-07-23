@@ -1,0 +1,82 @@
+<div class="row animated fadeIn">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <input
+            #input
+            class="form-control"
+            placeholder="search a hospital"
+            type="text"
+            (keyup)="searchHospitals(input.value,true)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div class="d-flex justify-content-between">
+    <mat-slide-toggle class="ml-4" (change)="slideChange($event)" [(ngModel)]="showAlerts">Show alerts</mat-slide-toggle>
+    <button (click)="createHospital()" class="btn btn-danger mr-4 "> Create a hospital</button>
+  </div>
+  
+  
+  <ng-container *ngIf="!loading; else loadingTemplate">
+    <div class="row animated fadeIn mt-3">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">Hospitals founded ( <small> {{totalResults}} </small> )</h3>
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let hospital of hospitals; let i = index">
+                  <td  style="width: 5%;" > <img (click)="changeImage(i)" class="img img-circle" style="max-width: 50px; max-height: 50px;" [src]="hospital.img | image: 'hospital'" alt=""> </td>
+                  <td style="width: 75%;"> 
+                    <input [value]="hospital.name" [id]="hospital._id" (keyup.enter)="changeName(i)" class="form-control" type="text">
+                    </td>
+                  <td>
+
+                    <button (click)="changeName(i)" class="btn btn-success mr-3">
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    
+                    <button (click)="deleteHospital(i)" class="btn btn-danger">
+                      <i class="fa fa-trash-o"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button (click)="prevPage()" [disabled]="!isPrev" class="btn btn-secondary mr-1">
+              Prev
+            </button>
+    
+            <button class="btn btn-secondary" (click)="nextPage()" [disabled]="!isNext">
+              Next
+            </button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  
+  <ng-template #loadingTemplate>
+    <app-loading></app-loading>
+  </ng-template>
+
+  
+  <div *ngIf="changeImageModal">
+    <app-modal-upload [type]="'hospital'" [selected]="selectedHospital" (close)="closeModal($event,'changeImage')"></app-modal-upload>
+  </div>
+
+<div *ngIf="createHospitalDialog">
+  <app-create [type]="'hospital'" (created)="goToNewHospital()" (close)="closeModal($event,'createDialog')"> </app-create>
+</div>
+  

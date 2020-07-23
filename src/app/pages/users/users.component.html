@@ -1,0 +1,76 @@
+<div class="row animated fadeIn">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <input
+          #input
+          class="form-control"
+          placeholder="search a user"
+          type="text"
+          (keyup)="searchUsers(input.value,true)"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-slide-toggle (change)="slideChange($event)" [(ngModel)]="showAlerts">Show alerts</mat-slide-toggle>
+
+
+<ng-container *ngIf="!loading; else loadingTemplate">
+  <div class="row animated fadeIn mt-3">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">Users founded ( <small> {{totalResults}} </small> )</h3>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Auth</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users; let i = index">
+                <td  > <img  (click)="changeImage(i)" class="img img-circle" style="max-width: 50px; max-height: 50px;" [src]="user.img | image: 'user'" alt=""> </td>
+                <td> {{user.email}} </td>
+                <td> {{user.name}} </td>
+                <select (change)="roleChange($event.target.value, i)" name="role" class="form-control" [(ngModel)]="user.role">
+                  <option value="ADMIN_ROLE">ADMIN</option>
+                  <option value="USER_ROLE">USER</option>
+                </select>
+                <td *ngIf="user.google"> <label class="label label-danger"> {{user.google | authGoogle}} </label> </td>
+                <td *ngIf="!user.google"> <label class="label label-info"> {{user.google | authGoogle}} </label> </td>
+                <td>
+                  <button (click)="deleteUser(i)" class="btn btn-danger">
+                    <i class="fa fa-trash-o"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <button (click)="prevPage()" [disabled]="!isPrev" class="btn btn-secondary mr-1">
+            Prev
+          </button>
+  
+          <button class="btn btn-secondary" (click)="nextPage()" [disabled]="!isNext">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <app-loading></app-loading>
+</ng-template>
+
+<div *ngIf="changeImageModal">
+  <app-modal-upload [type]="'user'" [selected]="selectedUser" (close)="closeModal($event)"></app-modal-upload>
+</div>

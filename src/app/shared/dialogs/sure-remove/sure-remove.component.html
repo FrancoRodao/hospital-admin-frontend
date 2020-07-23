@@ -1,0 +1,39 @@
+<ng-container *ngIf="User">
+  <h2 mat-dialog-title>¿Are you sure you want to delete {{User.name}}? </h2>
+<mat-dialog-content class="mat-typography">
+  <h1 style="color: red;">Once deleted it cannot be recovered.</h1>
+
+  <h2>User data </h2>
+  <p>User Name's: {{User.name}} </p>
+  <p>User Email's: {{User.email}} </p>
+  <p> User Auth: <label class="label label-danger ml-1"> {{User.google | authGoogle}} </label>
+  </p>
+  <p> User Role: {{User.role}} </p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+    <button mat-button [mat-dialog-close]="true">Delete</button>
+</mat-dialog-actions>
+</ng-container>
+
+
+
+<ng-container *ngIf="Hospital">
+  <h2 mat-dialog-title>¿Are you sure you want to delete {{Hospital.name}}? </h2>
+  <mat-dialog-content class="mat-typography">
+    <h1 style="color: red;">Once deleted it cannot be recovered.</h1>
+
+    <img [src]="Hospital.img | image: 'hospital'" alt="">
+  
+    <h2>Hospital data </h2>
+    <br>
+    <p>Hospital Name's: {{Hospital.name}} </p>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions>
+      <button mat-button mat-dialog-close cdkFocusInitial>Cancel</button>
+      <button mat-button [mat-dialog-close]="true">Delete</button>
+  </mat-dialog-actions>
+</ng-container>
+

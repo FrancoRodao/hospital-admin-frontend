@@ -15,9 +15,15 @@ export class DonaComponent implements OnInit {
   @Input() type: ChartType
   @Input() legend: string
 
+
   constructor() { }
 
   ngOnInit(): void {
   }
+  
+  public chartColors: any[] = [
+    { 
+      backgroundColor:["#FF7360", "#6FC8CE", "blue", "#FFFCC4", "#B9E8E0"] 
+    }];
 
 }

@@ -6,22 +6,38 @@ import { PagesComponent } from './main/pages.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { LoginGuard } from '../guards/login.guard';
+import { ProfileComponent } from './profile/profile.component';
+import { UsersComponent } from './users/users.component';
+import { HospitalsComponent } from './hospitals/hospitals.component';
+import { NgModule } from '@angular/core';
 
 
-const pagesRoutes: Routes = [
+const routes: Routes = [
     {
         path: '',
         component: PagesComponent,
+        canActivate: [LoginGuard],
         children: [
+            { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: DashboardComponent, data: {title: "Dashboard"} },
+            { path: 'profile', component: ProfileComponent, data: {title: "Profile"}},
             { path: 'progress', component: ProgressComponent, data: {title: "Progress"} },
             { path: 'graficas', component: Graficas1Component, data: {title: "Graphics"} },
             { path: 'promesas', component: PromesasComponent, data: {title: "Promises"} },
             { path: 'account-settings', component: AccountSettingsComponent, data: {title: "Settings"}},
             { path: 'rxjs', component: RxjsComponent, data: {title: "RxJs"}},
-            { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+
+            //MANTENIMIENTO
+            { path: 'users', component: UsersComponent, data: {title: "Users"} },
+            { path: 'hospitals', component: HospitalsComponent, data: {title: "Hospitals"} },
         ]
     },
 ]
 
-export const PAGES_ROUTES = RouterModule.forChild(pagesRoutes)
+@NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
+})
+
+export class PagesRouting {}
