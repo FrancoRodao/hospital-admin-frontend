@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarService } from 'src/app/services/shared/sidebar.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { UserService } from 'src/app/services/mantenaice/user/user.service';
 
 @Component({
   selector: 'app-sidebar',

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SnackbarService } from 'src/app/services/shared/snackbar.service';
-import { UserService } from 'src/app/services/user/user.service';
 import { UploadService } from 'src/app/services/uploads/upload.service';
+import { UserService } from 'src/app/services/mantenaice/user/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -77,11 +77,9 @@ export class ProfileComponent implements OnInit {
       }
       this.userService.editUser(editUser).subscribe(
         () => {
-
+          this.snackBar.snackBar('Profile updated!','',5000)
         },
-        (err)=> {
-          this.snackBar.snackBarError(err.error.message,'',5000)
-      })
+      )
     }
     return
   }

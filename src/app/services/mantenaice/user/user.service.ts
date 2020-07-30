@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { HttpClient } from "@angular/common/http";
-import { map, tap, catchError } from "rxjs/operators";
+import { map, catchError } from "rxjs/operators";
 import { Router } from '@angular/router';
-import { SnackbarService } from '../shared/snackbar.service';
 import { environment } from 'src/environments/environment';
-import { throwError, of, Observable } from 'rxjs';
+import {  of, Observable } from 'rxjs';
+import { SnackbarService } from '../../shared/snackbar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private snackBar: SnackbarService,
-    private router: Router,
+    private router: Router
   ) {
 
     this.loadUserInfo()
@@ -71,11 +71,13 @@ export class UserService {
       localStorage.removeItem('email')
     }
 
-    return this.http.post(url, user).pipe(map((res: any)=>{
+    return this.http.post(url, user).pipe(
+      map((res: any)=>{
       this.saveUser(res.message.token,res.message.user)
       this.loadUserInfo()
       return true
-    }))
+      }
+    ))
   }
 
   loginUserGoogle(token: string){
@@ -99,7 +101,7 @@ export class UserService {
   }
 
   searchUsers(term: string, page: number){
-    const url = environment.URL_SERVICES+`/collection/users/${term}?page=${page}`
+    const url = environment.URL_SERVICES+`/search/users/${term}?page=${page}`
     return this.http.get(url).pipe(map(res=>{
       return {
         search: res,
@@ -109,7 +111,7 @@ export class UserService {
   }
 
   deleteUser(id: string){
-    const url = environment.URL_SERVICES+`/deleteUser/${id}`
+    const url = environment.URL_SERVICES+`/users/${id}`
     return this.http.delete(url).pipe(map((res: any)=>{
       return res.message
     }))
@@ -141,4 +143,7 @@ export class UserService {
       })
     )
   }
+
+  
+
 }

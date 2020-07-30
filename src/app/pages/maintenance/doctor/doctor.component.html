@@ -1,0 +1,149 @@
+<div class="row animated fadeIn">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <input
+          #input
+          class="form-control"
+          placeholder="search a doctor"
+          type="text"
+          (keyup)="searchDoctors(input.value, true)"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-between">
+  <mat-slide-toggle
+    class="ml-4"
+    (change)="slideChange($event)"
+    [(ngModel)]="showAlerts"
+    >Show alerts</mat-slide-toggle
+  >
+  <button (click)="createDoctor()" class="btn btn-danger mr-4">
+    Create a doctor
+  </button>
+</div>
+
+<ng-container *ngIf="!loading; else loadingTemplate">
+  <div class="row animated fadeIn mt-3">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">
+            Doctors founded ( <small> {{ totalResults }} </small> )
+          </h3>
+          <form *ngIf="formDoctors" [formGroup]="formDoctors">
+          <table formArrayName="doctorsForms" class="table table-hover">
+            <thead>
+              <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Hospital</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+              <tbody>
+                <tr
+                  *ngFor="let doctor of doctors; let i = index"
+                  [formGroupName]="i"
+                >
+                  <td style="width: 5%;">
+                    <img
+                      (click)="changeImage(i)"
+                      class="img img-circle"
+                      style="max-width: 50px; max-height: 50px;"
+                      [src]="doctor.img | image: 'doctor'"
+                      alt=""
+                    />
+                  </td>
+                  <td style="width: 40%;">
+                    <input
+                      formControlName="name"
+                      [value]="doctor.name"
+                      (keyup.enter)="editDoctor(i)"
+                      class="form-control"
+                      type="text"
+                    />
+                  </td>
+                  <td>
+                    <select
+                      formControlName="hospital"
+                      (change)="editDoctor(i)"
+                      class="form-control"
+                    >
+                      <option
+                        [value]="doctor.hospital"
+                        selected
+                        disabled
+                        hidden
+                      >
+                        {{ doctor.hospital }}
+                      </option>
+                      <option
+                        [value]="hospital.name"
+                        *ngFor="let hospital of hospitals"
+                      >
+                        {{ hospital.name }}
+                      </option>
+                    </select>
+                  </td>
+                  <td>
+                    <button
+                      type="button"
+                      (click)="editDoctor(i)"
+                      class="btn btn-success mr-3"
+                    >
+                      <i class="fa fa-edit"></i>
+                    </button>
+
+                    <button type="button" (click)="deleteDoctor(i)" class="btn btn-danger">
+                      <i class="fa fa-trash-o"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+        </form>
+          <button
+            (click)="prevPage()"
+            [disabled]="!isPrev"
+            class="btn btn-secondary mr-1"
+          >
+            Prev
+          </button>
+
+          <button
+            class="btn btn-secondary"
+            (click)="nextPage()"
+            [disabled]="!isNext"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loadingTemplate>
+  <app-loading></app-loading>
+</ng-template>
+
+<div *ngIf="changeImageModal">
+  <app-modal-upload
+    [type]="'doctor'"
+    [selected]="selectedDoctor"
+    (close)="closeModal($event, 'changeImage')"
+  ></app-modal-upload>
+</div>
+
+<div *ngIf="createDoctorDialog">
+  <app-create
+    [type]="'doctor'"
+    (created)="goToNewDoctor($event)"
+    (close)="closeModal($event, 'createDialog')"
+  >
+  </app-create>
+</div>

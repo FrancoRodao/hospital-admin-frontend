@@ -8,9 +8,10 @@ import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 import { LoginGuard } from '../guards/login.guard';
 import { ProfileComponent } from './profile/profile.component';
-import { UsersComponent } from './users/users.component';
-import { HospitalsComponent } from './hospitals/hospitals.component';
 import { NgModule } from '@angular/core';
+import { UsersComponent } from './maintenance/users/users.component';
+import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
+import { DoctorComponent } from './maintenance/doctor/doctor.component';
 
 
 const routes: Routes = [
@@ -31,6 +32,7 @@ const routes: Routes = [
             //MANTENIMIENTO
             { path: 'users', component: UsersComponent, data: {title: "Users"} },
             { path: 'hospitals', component: HospitalsComponent, data: {title: "Hospitals"} },
+            { path: 'doctors', component: DoctorComponent, data: {title: "Doctors"}}
         ]
     },
 ]

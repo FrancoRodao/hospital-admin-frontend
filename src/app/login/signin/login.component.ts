@@ -3,7 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { UserService } from 'src/app/services/user/user.service';
+import { GlobalErrorHandler } from 'src/app/services/errors/error-handler.service';
+import { UserService } from 'src/app/services/mantenaice/user/user.service';
 
 declare function init_plugins()
 declare const gapi: any
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private userService: UserService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private errorHandler: GlobalErrorHandler
   ) { }
 
   ngOnInit(): void {
@@ -68,7 +70,10 @@ export class LoginComponent implements OnInit {
         this.form.value.email,
         this.form.value.password
       )
-      this.userService.loginUser(user, this.form.value.remember).subscribe(res=> this.router.navigate(['/dashboard']))
+      this.userService.loginUser(user, this.form.value.remember)
+                      .subscribe(
+                        res=> this.router.navigate(['/dashboard']),
+                        )
     }
     return
   }

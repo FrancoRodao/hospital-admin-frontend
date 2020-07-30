@@ -1,5 +1,5 @@
 //MODULOS
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +17,7 @@ import { AppComponent } from './app.component';
 import { NotfoundComponent } from './pages/notfound/notfound.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptorService } from './interceptors/token-interceptor.service';
+import { GlobalErrorHandler } from './services/errors/error-handler.service';
 
 
 @NgModule({
@@ -38,6 +39,10 @@ import { TokenInterceptorService } from './interceptors/token-interceptor.servic
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true
+    },
+    {
+      provide: ErrorHandler, 
+      useClass: GlobalErrorHandler
     }
   ],
   bootstrap: [AppComponent]

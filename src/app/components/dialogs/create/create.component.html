@@ -1,66 +1,142 @@
-<div class="background-black animated fadeIn">
-  <div class="modal" style="display: block;" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header d-flex justify-content-center">
-          <h3 class="modal-title text-center">Create a new hospital</h3>
-        </div>
-
-        <div class="modal-body">
-            <ng-container *ngIf="!loading;else loadingTemplate">
-              
-              <div class="col-lg-12">
-                <div class="card">
-                  <div class="card-body" align="center">
-                    <input
-                      #name
-                      class="form-control mb-5"
-                      type="text"
-                      placeholder="name"
-                    />
-                    <img
-                      *ngIf="imageTemp"
-                      [src]="imageTemp"
-                      style="width: 100%;"
-                      alt=""
-                    />
-                    <input
-                      id="file2"
-                      class="mt-3"
-                      type="file"
-                      #file
-                      (change)="handleFileInput($event.target.files)"
-                      accept="image/*"
-                    />
-                    <br /><br />
-                    <button
-                      (click)="create(name.value)"
-                      type="button"
-                      class="btn btn-block btn-success waves-effect waves-light m-r-10"
-                    >
-                      <i class="fa fa-save"></i> Create hospital
-                    </button>
+<ng-container *ngIf="type == 'hospital'">
+  <div class="background-black animated fadeIn">
+    <div class="modal" style="display: block;" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header d-flex justify-content-center">
+            <h3 class="modal-title text-center">Create a new hospital</h3>
+          </div>
+  
+          <div class="modal-body">
+              <ng-container *ngIf="!loading;else loadingTemplate">
+                
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body" align="center">
+                      <input
+                        #name
+                        class="form-control mb-5"
+                        type="text"
+                        placeholder="name"
+                      />
+                      <img
+                        *ngIf="imageTemp"
+                        [src]="imageTemp"
+                        style="width: 100%;"
+                        alt=""
+                      />
+                      <input
+                        id="file2"
+                        class="mt-3"
+                        type="file"
+                        #file
+                        (change)="handleFileInput($event.target.files)"
+                        accept="image/*"
+                      />
+                      <br /><br />
+                      <button
+                        (click)="create(name.value)"
+                        type="button"
+                        class="btn btn-block btn-success waves-effect waves-light m-r-10"
+                      >
+                        <i class="fa fa-save"></i> Create hospital
+                      </button>
+                    </div>
                   </div>
                 </div>
+              </ng-container>
+  
+              <ng-template #loadingTemplate>
+                <app-loading></app-loading>
+              </ng-template>
+  
+              <div class="modal-footer">
+                <button
+                  (click)="close(false)"
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
               </div>
-            </ng-container>
-
-            <ng-template #loadingTemplate>
-              <app-loading></app-loading>
-            </ng-template>
-
-            <div class="modal-footer">
-              <button
-                (click)="close(false)"
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</ng-container>
+
+
+<ng-container *ngIf="type == 'doctor'">
+  <div class="background-black animated fadeIn">
+    <div class="modal" style="display: block;" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header d-flex justify-content-center">
+            <h3 class="modal-title text-center">Create a new doctor</h3>
+          </div>
+  
+          <div class="modal-body">
+              <ng-container *ngIf="!loading;else loadingTemplate">
+                
+                <div class="col-lg-12">
+                  <div class="card">
+                    <div class="card-body" align="center">
+                      <input
+                        #name
+                        class="form-control mb-1"
+                        type="text"
+                        placeholder="name"
+                      />
+                      <select [(ngModel)]="selectedOption" required class="form-control">
+                        <option disabled selected hidden>Choose a Hospital</option>
+                        <option *ngFor="let hospital of hospitals" > {{hospital.name}} </option>
+                      </select>
+                      <img
+                        *ngIf="imageTemp"
+                        [src]="imageTemp"
+                        style="width: 100%;"
+                        alt=""
+                      />
+                      <input
+                        id="file2"
+                        class="mt-3"
+                        type="file"
+                        #file
+                        (change)="handleFileInput($event.target.files)"
+                        accept="image/*"
+                      />
+                      <br /><br />
+                      <button
+                        (click)="create(name.value)"
+                        type="button"
+                        class="btn btn-block btn-success waves-effect waves-light m-r-10"
+                      >
+                        <i class="fa fa-save"></i> Create doctor
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+  
+              <ng-template #loadingTemplate>
+                <app-loading></app-loading>
+              </ng-template>
+  
+              <div class="modal-footer">
+                <button
+                  (click)="close(false)"
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

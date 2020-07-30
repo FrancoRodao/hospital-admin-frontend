@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA  } from '@angular/material/dialog';
 import { User } from 'src/app/models/user.model';
 import { Hospital } from 'src/app/models/hospital.model';
+import { Doctor } from 'src/app/models/doctor.model';
 
 export interface DialogData {
   name: string;
@@ -18,6 +19,7 @@ export interface DialogData {
 })
 export class SureRemoveComponent implements OnInit {
 
+  Doctor: Doctor
   User?: User
   Hospital?: Hospital
 

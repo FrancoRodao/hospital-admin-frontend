@@ -12,7 +12,6 @@ export class HospitalService {
 
   constructor(
     private http: HttpClient,
-    private userService: UserService
   ) { }
 
   getAllHospitals(page: number = 1){
@@ -41,10 +40,11 @@ export class HospitalService {
   }
 
   searchHospitals(term: string, page: number){
-    const url = environment.URL_SERVICES+`/collection/hospitals/${term}?token=${this.userService.getToken()}&page=${page}`
-    return this.http.get(url).pipe(map(res=>{
+    const url = environment.URL_SERVICES+`/search/hospitals/${term}?page=${page}`
+    return this.http.get(url).pipe(map((res: any)=>{
       return {
-        search: res,
+        ok: res.ok,
+        message: res.message,
         lastSearch: url
       }
     }))

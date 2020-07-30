@@ -4,7 +4,7 @@ import { SnackbarService } from 'src/app/services/shared/snackbar.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatDialog } from '@angular/material/dialog';
 import { SureRemoveComponent } from 'src/app/shared/dialogs/sure-remove/sure-remove.component';
-import { UserService } from 'src/app/services/user/user.service';
+import { UserService } from 'src/app/services/mantenaice/user/user.service';
 
 @Component({
   selector: 'app-users',
@@ -54,11 +54,11 @@ export class UsersComponent implements OnInit {
         this.isPrev = false
       }
       this.userService.searchUsers(term,page).subscribe((res: any)=>{
-        this.users = res.search.users
-        this.totalPages = res.search.totalPages
+        this.users = res.search.message.users
+        this.totalPages = res.search.message.totalPages
         this.lastTerm = term
         this.lastPage = page
-        this.totalResults = res.search.total
+        this.totalResults = res.search.message.total
         this.lastUsers = ''
         if(this.lastPage < this.totalPages){
           this.isNext = true

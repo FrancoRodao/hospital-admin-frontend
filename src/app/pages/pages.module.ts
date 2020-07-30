@@ -10,15 +10,8 @@ import { SharedModule } from '../shared/shared.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ProgressComponent } from './progress/progress.component';
 import { PagesComponent } from './main/pages.component';
-import { DonaComponent } from '../components/graficas/dona/dona.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
-import { UsersComponent } from './users/users.component';
 import { ProfileComponent } from './profile/profile.component';
-import { ModalUploadComponent } from '../components/modal-upload/modal-upload.component';
-import { HospitalsComponent } from './hospitals/hospitals.component';
-import { CreateComponent } from '../components/dialogs/create/create.component';
-import { LoadingComponent } from '../components/loading/loading.component';
-import { IncrementorComponent } from '../components/incrementor/incrementor.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
 
@@ -29,10 +22,12 @@ import { LoginGuard } from '../guards/login.guard';
 import { PipesModule } from '../pipes/pipes.module';
 
 //routing
-import { PagesRouting } from './pages.routes';
 import { RouterModule } from '@angular/router';
 import { ComponentsModule } from '../components/components.module';
 import { Graficas1Component } from './graficas1/graficas1.component';
+import { UsersComponent } from './maintenance/users/users.component';
+import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
+import { DoctorComponent } from './maintenance/doctor/doctor.component';
 
 
 
@@ -46,7 +41,8 @@ import { Graficas1Component } from './graficas1/graficas1.component';
         ProfileComponent,
         UsersComponent,
         HospitalsComponent,
-        DashboardComponent
+        DashboardComponent,
+        DoctorComponent
     ],
     exports: [
         DashboardComponent,

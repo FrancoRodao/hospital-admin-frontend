@@ -1,10 +1,10 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Hospital } from 'src/app/models/hospital.model';
-import { HospitalService } from 'src/app/services/hospital/hospital.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatDialog } from '@angular/material/dialog';
 import { SureRemoveComponent } from 'src/app/shared/dialogs/sure-remove/sure-remove.component';
 import { SnackbarService } from 'src/app/services/shared/snackbar.service';
+import { HospitalService } from 'src/app/services/mantenaice/hospital/hospital.service';
 
 
 @Component({
@@ -54,11 +54,11 @@ export class HospitalsComponent implements OnInit {
         this.isPrev = false
       }
       this.hospitalService.searchHospitals(term, page).subscribe((res: any) => {
-        this.hospitals = res.search.hospitals
-        this.totalPages = res.search.totalPages
+        this.hospitals = res.message.hospitals
+        this.totalPages = res.message.totalPages
         this.lastTerm = term
         this.lastPage = page
-        this.totalResults = res.search.total
+        this.totalResults = res.message.total
         this.lastHospitals = ''
         if (this.lastPage < this.totalPages) {
           this.isNext = true
@@ -140,7 +140,6 @@ export class HospitalsComponent implements OnInit {
   }
 
   deleteHospital(position: number) {
-
     const id = this.hospitals[position]._id
     const name = this.hospitals[position].name
 
@@ -195,18 +194,15 @@ export class HospitalsComponent implements OnInit {
       this.snackBar.snackBarError('Name is required','',5000)
       return
     }
+    this.loading = true
     const hospital = this.hospitals[index]
     hospital.name = name
     this.hospitalService.editHospital(hospital).subscribe(
       () => {
-        
-      },
-      (err) => {
-        this.snackBar.snackBarError(err.error.message,'',5000)
-        return
+        this.snackBar.snackBar('Hospital updated','',5000)
+        this.loading = false
       }
     )
-    this.snackBar.snackBar('Hospital updated','',5000)
   }
 
   changeImage(position: number) {

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { map, catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { throwError } from 'rxjs';
 
 
 @Injectable({
@@ -18,9 +19,14 @@ export class UploadService {
     const formData = new FormData();
     formData.append('image', image)
     return this.http.post(url,formData)
-    .pipe(map((res: any)=>{
-      return res.message
-    }))
+    .pipe(
+      map((res: any)=>{
+        return res.message
+      }),
+      catchError((error: HttpErrorResponse) => {
+        return throwError(error)
+      })
+    )
   }
 
 }

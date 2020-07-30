@@ -1,7 +1,7 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CanActivate, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
-import { UserService } from '../services/user/user.service';
 import { map } from 'rxjs/operators';
+import { UserService } from '../services/mantenaice/user/user.service';
 
 @Injectable({
   providedIn: 'root'
