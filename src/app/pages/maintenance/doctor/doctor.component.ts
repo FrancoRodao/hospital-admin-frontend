@@ -8,6 +8,7 @@ import { Hospital } from 'src/app/models/hospital.model';
 import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { DoctorService } from 'src/app/services/mantenaice/doctor/doctor.service';
 import { HospitalService } from 'src/app/services/mantenaice/hospital/hospital.service';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-doctor',
@@ -59,6 +60,7 @@ export class DoctorComponent implements OnInit {
     this.getAllDoctors()
 
 
+
   }
 
 
@@ -84,11 +86,12 @@ export class DoctorComponent implements OnInit {
     // instantiate a new day FormGroup;
     const newDoctorGroup: FormGroup = this.formBuilder.group({
       name: [doctor.name, Validators.required],
-      hospital: [doctor.hospital, Validators.required],
+      hospital: [doctor.hospital._id, Validators.required],
     });;
 
     // Add it to our formArray
     control.push(newDoctorGroup);
+
   }
 
   searchDoctors(term: string, loading: boolean = true, page: number = 1) {
@@ -119,7 +122,6 @@ export class DoctorComponent implements OnInit {
           const element = this.doctors[index];
           this.addDoctorForm(element)
         }
-
         if (this.lastPage < this.totalPages) {
           this.isNext = true
         } else {
@@ -207,11 +209,12 @@ export class DoctorComponent implements OnInit {
 
 
   getAllDoctors(page: number = 1, verifyNext: boolean = false) {
-
     this.loading = true
 
     if (page == 1) {
       this.isPrev = false
+    }else{
+      this.isPrev = true
     }
 
     this.doctorService.getAllDoctors(page).subscribe((res: any) => {
@@ -220,6 +223,7 @@ export class DoctorComponent implements OnInit {
       this.totalResults = res.total
       this.lastDoctors = 'getAll'
       this.lastPage = res.inPage
+
 
       const clearFormArray = (formArray: FormArray) => {
         while (formArray.length !== 0) {
@@ -250,6 +254,7 @@ export class DoctorComponent implements OnInit {
       }
 
       this.loading = false
+
     })
 
 

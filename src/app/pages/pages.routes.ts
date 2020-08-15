@@ -12,6 +12,8 @@ import { NgModule } from '@angular/core';
 import { UsersComponent } from './maintenance/users/users.component';
 import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
 import { DoctorComponent } from './maintenance/doctor/doctor.component';
+import { SearchComponent } from './search/search.component';
+import { AdminGuard } from '../guards/admin.guard';
 
 
 const routes: Routes = [
@@ -28,9 +30,10 @@ const routes: Routes = [
             { path: 'promesas', component: PromesasComponent, data: {title: "Promises"} },
             { path: 'account-settings', component: AccountSettingsComponent, data: {title: "Settings"}},
             { path: 'rxjs', component: RxjsComponent, data: {title: "RxJs"}},
+            { path: 'search/:term', component: SearchComponent, data: {title: "Search"} },
 
             //MANTENIMIENTO
-            { path: 'users', component: UsersComponent, data: {title: "Users"} },
+            { path: 'users', canActivate: [AdminGuard], component: UsersComponent, data: {title: "Users"} },
             { path: 'hospitals', component: HospitalsComponent, data: {title: "Hospitals"} },
             { path: 'doctors', component: DoctorComponent, data: {title: "Doctors"}}
         ]

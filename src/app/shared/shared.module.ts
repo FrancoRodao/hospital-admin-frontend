@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 //pipes
 import { PipesModule } from '../pipes/pipes.module';
 import { SureRemoveComponent } from './dialogs/sure-remove/sure-remove.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { SureRemoveComponent } from './dialogs/sure-remove/sure-remove.component
         CommonModule,
         PipesModule,
         MatDialogModule,
-        MatButtonModule
+        MatButtonModule,
+        FormsModule
     ],
     declarations: [
         HeaderComponent,

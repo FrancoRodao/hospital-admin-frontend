@@ -46,7 +46,7 @@ export class CreateComponent implements OnInit {
     this.token = this.userService.getToken()
     
     if(this.type == 'doctor'){
-      this.hospitalService.getAllHospitals().subscribe((res: any)=>{
+      this.hospitalService.getAllHospitals().subscribe((res)=>{
         this.hospitals = res.hospitals
       })
     }
@@ -65,7 +65,7 @@ export class CreateComponent implements OnInit {
         const hospital: Hospital = {
           name: info
         }
-        this.hospitalService.createHospital(hospital).subscribe((res: any) => {
+        this.hospitalService.createHospital(hospital).subscribe((res) => {
           if (this.fileToUpload) {
             this.selected = res.hospital
             this.uploadPhoto()

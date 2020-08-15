@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { HttpClient } from "@angular/common/http";
-import { map, catchError } from "rxjs/operators";
+import { map, catchError, tap } from "rxjs/operators";
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import {  of, Observable } from 'rxjs';
@@ -18,11 +18,16 @@ export class UserService {
   constructor(
     private http: HttpClient,
     private snackBar: SnackbarService,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone
   ) {
 
     this.loadUserInfo()
 
+  }
+
+  get role(): 'ADMIN_ROLE' | 'USER_ROLE'{
+    return this.user.role
   }
 
   registerUser(user: User){
@@ -44,7 +49,11 @@ export class UserService {
 
   loadUserInfo(){
     if(localStorage.getItem('user') && localStorage.getItem('token')){
-      this.user = User.instanceUser(JSON.parse(localStorage.getItem('user')))
+      try {
+        this.user = User.instanceUser(JSON.parse(localStorage.getItem('user')))
+      } catch (error) {
+        this.logout()
+      }
     }else{
       this.logout()
       return
@@ -55,7 +64,7 @@ export class UserService {
     const url = this.url+`/users`
     return this.http.put(url, user)
     .pipe(map((res: any)=> {
-        this.saveUser(localStorage.getItem('token'),res.user)
+        this.saveUser(this.getToken(),res.user)
         this.loadUserInfo()
         this.snackBar.snackBar('¡Updated User!','',3000)
         return true
@@ -74,6 +83,7 @@ export class UserService {
     return this.http.post(url, user).pipe(
       map((res: any)=>{
       this.saveUser(res.message.token,res.message.user)
+      this.saveMenu(res.menu)
       this.loadUserInfo()
       return true
       }
@@ -82,22 +92,29 @@ export class UserService {
 
   loginUserGoogle(token: string){
     const url = this.url+'/signin/google'
-    return this.http.post(url, {token}).pipe(map((res: any)=>{
-      this.saveUser(res.token,res.user)
-      this.loadUserInfo()
-      return true
-    }))
+    return this.http.post(url, {
+      'token': token
+    }).pipe(
+      tap((res: any) => {
+        this.saveUser(res.token,res.user)
+        this.saveMenu(res.menu)
+      })
+    )
   }
 
   logout(){
     this.user = null
     localStorage.removeItem('token')
     localStorage.removeItem('user')
-    this.router.navigate(['/login'])
+    localStorage.removeItem('menu')
+    this.ngZone.run(()=> {
+      this.router.navigateByUrl('/login')
+    })
+    
   }
 
   getToken(): string{
-    return localStorage.getItem('token')
+    return localStorage.getItem('token') || ''
   }
 
   searchUsers(term: string, page: number){
@@ -122,12 +139,13 @@ export class UserService {
     return this.http.get(url)
   }
 
-  changeRole(id: string,role: string){
-    const url = environment.URL_SERVICES+`/changeRole/${id}`
-    const body = {
-      "role": role
-    }
-    return this.http.put(url,body)
+  changeRole(user: User,role: 'ADMIN_ROLE' | 'USER_ROLE'){
+    const url = environment.URL_SERVICES+`/users/${user._id}`
+
+    user.role = role
+
+
+    return this.http.put(url,user)
   }
 
   isLogged(): Observable<boolean>{
@@ -136,12 +154,17 @@ export class UserService {
     return this.http.get(url).pipe(
       map( (res: any) => {
         this.saveUser(res.token,res.user)
+        this.saveMenu(res.menu)
         return true;
       }),
       catchError( err => {
         return of(false)
       })
     )
+  }
+
+  saveMenu(menu){
+    localStorage.setItem('menu', JSON.stringify(menu))
   }
 
   

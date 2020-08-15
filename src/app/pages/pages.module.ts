@@ -28,6 +28,7 @@ import { Graficas1Component } from './graficas1/graficas1.component';
 import { UsersComponent } from './maintenance/users/users.component';
 import { HospitalsComponent } from './maintenance/hospitals/hospitals.component';
 import { DoctorComponent } from './maintenance/doctor/doctor.component';
+import { SearchComponent } from './search/search.component';
 
 
 
@@ -42,7 +43,8 @@ import { DoctorComponent } from './maintenance/doctor/doctor.component';
         UsersComponent,
         HospitalsComponent,
         DashboardComponent,
-        DoctorComponent
+        DoctorComponent,
+        SearchComponent
     ],
     exports: [
         DashboardComponent,

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Hospital } from 'src/app/models/hospital.model';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { getHospitals, createHospital } from 'src/app/interfaces/HTTP/APIRest';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class HospitalService {
 
   getAllHospitals(page: number = 1){
     const url = environment.URL_SERVICES+`/hospitals?page=${page}`
-    return this.http.get(url)
+    return this.http.get<getHospitals>(url)
   }
 
   // getHospital(id: string){
@@ -26,7 +27,7 @@ export class HospitalService {
 
   createHospital(hospital: Hospital){
     const url = environment.URL_SERVICES+`/hospitals`
-    return this.http.post(url,hospital)
+    return this.http.post<createHospital>(url,hospital)
   }
 
   deleteHospital(id: string){

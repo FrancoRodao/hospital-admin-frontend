@@ -5,7 +5,7 @@
         <input
           #input
           class="form-control"
-          placeholder="search a doctor"
+          placeholder="search for doctor or hospital"
           type="text"
           (keyup)="searchDoctors(input.value, true)"
         />
@@ -35,16 +35,16 @@
             Doctors founded ( <small> {{ totalResults }} </small> )
           </h3>
           <form *ngIf="formDoctors" [formGroup]="formDoctors">
-          <table formArrayName="doctorsForms" class="table table-hover">
-            <thead>
-              <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Hospital</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-              <tbody>
+            <table formArrayName="doctorsForms" class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Image</th>
+                  <th>Name</th>
+                  <th>Hospital</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="doctors.length > 0">
                 <tr
                   *ngFor="let doctor of doctors; let i = index"
                   [formGroupName]="i"
@@ -73,18 +73,11 @@
                       (change)="editDoctor(i)"
                       class="form-control"
                     >
-                      <option
-                        [value]="doctor.hospital"
-                        selected
-                        disabled
-                        hidden
-                      >
-                        {{ doctor.hospital }}
+                      <option hidden>
+                        {{doctor.hospital.name}}
                       </option>
-                      <option
-                        [value]="hospital.name"
-                        *ngFor="let hospital of hospitals"
-                      >
+                      
+                      <option [value]="hospital._id" *ngFor="let hospital of hospitals">
                         {{ hospital.name }}
                       </option>
                     </select>
@@ -98,14 +91,18 @@
                       <i class="fa fa-edit"></i>
                     </button>
 
-                    <button type="button" (click)="deleteDoctor(i)" class="btn btn-danger">
+                    <button
+                      type="button"
+                      (click)="deleteDoctor(i)"
+                      class="btn btn-danger"
+                    >
                       <i class="fa fa-trash-o"></i>
                     </button>
                   </td>
                 </tr>
               </tbody>
-          </table>
-        </form>
+            </table>
+          </form>
           <button
             (click)="prevPage()"
             [disabled]="!isPrev"

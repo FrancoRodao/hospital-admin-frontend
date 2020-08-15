@@ -44,30 +44,30 @@ export class UsersComponent implements OnInit {
     this.getAllUsers()
   }
 
-  searchUsers(term: string, loading: boolean = true, page: number = 1){
-    if(term.length > 0){
-      if(loading){
+  searchUsers(term: string, loading: boolean = true, page: number = 1) {
+    if (term.length > 0) {
+      if (loading) {
         this.loading = true
       }
 
-      if(page == 1){
+      if (page == 1) {
         this.isPrev = false
       }
-      this.userService.searchUsers(term,page).subscribe((res: any)=>{
+      this.userService.searchUsers(term, page).subscribe((res: any) => {
         this.users = res.search.message.users
         this.totalPages = res.search.message.totalPages
         this.lastTerm = term
         this.lastPage = page
         this.totalResults = res.search.message.total
         this.lastUsers = ''
-        if(this.lastPage < this.totalPages){
+        if (this.lastPage < this.totalPages) {
           this.isNext = true
-        }else{
+        } else {
           this.isNext = false
         }
         this.loading = false
       })
-    }else{
+    } else {
       this.getAllUsers(page)
     }
 
@@ -75,44 +75,44 @@ export class UsersComponent implements OnInit {
 
   }
 
-  nextPage(){
-    if(!this.isNext){
+  nextPage() {
+    if (!this.isNext) {
       return
     }
 
-    if(this.lastUsers == 'getAll'){
-      this.getAllUsers(this.lastPage+1)
-    }else{
-      this.searchUsers(this.lastTerm, true, this.lastPage+1)
+    if (this.lastUsers == 'getAll') {
+      this.getAllUsers(this.lastPage + 1)
+    } else {
+      this.searchUsers(this.lastTerm, true, this.lastPage + 1)
     }
     this.isPrev = true
-    
+
   }
 
-  prevPage(){
-    if(!this.prevPage){
+  prevPage() {
+    if (!this.prevPage) {
       return
     }
 
-    if(this.lastUsers == 'getAll'){
-      this.getAllUsers(this.lastPage-1)
-    }else{
-      this.searchUsers(this.lastTerm, true, this.lastPage-1)
+    if (this.lastUsers == 'getAll') {
+      this.getAllUsers(this.lastPage - 1)
+    } else {
+      this.searchUsers(this.lastTerm, true, this.lastPage - 1)
     }
 
   }
 
-  deleteUser(position: number){
+  deleteUser(position: number) {
     const id = this.users[position]._id
 
-    if(id == this.userService.user._id){
-      this.snackBar.snackBarError("You can't erase yourself",'',5000)
+    if (id == this.userService.user._id) {
+      this.snackBar.snackBarError("You can't erase yourself", '', 5000)
       return;
     }
 
     const name = this.users[position].name
 
-    if(this.showAlerts){
+    if (this.showAlerts) {
       const dialogRef = this.dialog.open(SureRemoveComponent);
       dialogRef.componentInstance.User = this.users[position]
       dialogRef.afterClosed().subscribe(
@@ -120,27 +120,27 @@ export class UsersComponent implements OnInit {
           if (result == true) {
             this.loading = true
             this.userService.deleteUser(id).subscribe((message: string) => {
-              this.users.splice(position,1)
-              if(this.users.length <= 0){
+              this.users.splice(position, 1)
+              if (this.users.length <= 0) {
                 this.prevPage()
-              }else{
+              } else {
                 this.searchUsers(this.lastTerm, false, this.lastPage)
               }
-              this.snackBar.snackBarError(`¡${name} deleted successfully!`,'',5000)
+              this.snackBar.snackBarError(`¡${name} deleted successfully!`, '', 5000)
               this.loading = false
             })
           }
         })
-    }else{
+    } else {
       this.loading = true
       this.userService.deleteUser(id).subscribe((message: string) => {
-        this.users.splice(position,1)
-        if(this.users.length <= 0){
+        this.users.splice(position, 1)
+        if (this.users.length <= 0) {
           this.prevPage()
-        }else{
+        } else {
           this.searchUsers(this.lastTerm, false, this.lastPage)
         }
-        this.snackBar.snackBarError(`¡${name} deleted successfully!`,'',5000)
+        this.snackBar.snackBarError(`¡${name} deleted successfully!`, '', 5000)
         this.loading = false
       })
     }
@@ -149,67 +149,69 @@ export class UsersComponent implements OnInit {
   }
 
 
-  getAllUsers(page: number = 1){
+  getAllUsers(page: number = 1) {
 
     this.loading = true
 
-    if(page == 1){
+    if (page == 1) {
       this.isPrev = false
     }
 
-    this.userService.getAllUsers(page).subscribe((res: any)=>{
+    this.userService.getAllUsers(page).subscribe((res: any) => {
       this.users = res.users
       this.totalPages = res.totalPages
       this.totalResults = res.total
       this.lastUsers = 'getAll'
       this.lastPage = res.inPage
-      if(this.lastPage < this.totalPages){
+      if (this.lastPage < this.totalPages) {
         this.isNext = true
-      }else{
+      } else {
         this.isNext = false
       }
       this.loading = false
     })
   }
 
-  slideChange(event: MatSlideToggleChange){
-    if(event.checked){
+  slideChange(event: MatSlideToggleChange) {
+    if (event.checked) {
       this.showAlerts = true
-    }else{
+    } else {
       this.showAlerts = false
     }
   }
 
-  roleChange(role: string, index: number){
-    const selectedUserId = this.users[index]._id
+  roleChange(role: string, index: number) {
+    const selectedUser = this.users[index]
     switch (role) {
       case 'ADMIN_ROLE':
-        
-        this.userService.changeRole(selectedUserId,role).subscribe()
+
+        this.userService.changeRole(selectedUser, role).subscribe(() => this.snackBar.snackBar('User updated!', '', 5000)
+        )
 
         break;
-    
+
       case 'USER_ROLE':
 
-        this.userService.changeRole(selectedUserId,role).subscribe()
+        this.userService.changeRole(selectedUser, role).subscribe(() => this.snackBar.snackBar('User updated!', '', 5000)
+        )
 
         break;
     }
   }
 
-  changeImage(position: number){
+  changeImage(position: number) {
     const user = this.users[position]
     this.selectedUser = user
     this.changeImageModal = true
   }
 
-  closeModal(event: boolean){
+  closeModal(event: boolean) {
     this.changeImageModal = event
-    
-    if(this.lastUsers == 'getAll'){
+
+    if (this.lastUsers == 'getAll') {
       this.getAllUsers(this.lastPage)
-    }else{
-      this.searchUsers(this.lastTerm,true,this.lastPage)
+    } else {
+      this.searchUsers(this.lastTerm, true, this.lastPage)
     }
 
   }

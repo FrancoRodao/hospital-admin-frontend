@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { SnackbarService } from '../services/shared/snackbar.service';
 import { UserService } from '../services/mantenaice/user/user.service';
 
 @Injectable({
@@ -11,9 +10,8 @@ import { UserService } from '../services/mantenaice/user/user.service';
 export class TokenInterceptorService implements HttpInterceptor {
 
   constructor(
-    private userService: UserService,
-    private snackBar: SnackbarService
-  ) { }
+    private userService: UserService
+    ) { }
 
 
 
@@ -36,7 +34,7 @@ export class TokenInterceptorService implements HttpInterceptor {
     //TOKEN IN HEADERS
 
     const headers = new HttpHeaders({
-      'x-token': this.userService.getToken()
+      'authorization': `Bearer ${this.userService.getToken()}`
     })
 
     const reqCloned = req.clone({

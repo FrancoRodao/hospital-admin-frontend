@@ -73,7 +73,7 @@ export class ProfileComponent implements OnInit {
       const editUser = {
         ...this.form.value,
         role: this.userService.user.role,
-        id: this.userService.user._id
+        _id: this.userService.user._id
       }
       this.userService.editUser(editUser).subscribe(
         () => {
